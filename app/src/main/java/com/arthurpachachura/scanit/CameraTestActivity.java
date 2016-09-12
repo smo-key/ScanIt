@@ -1,11 +1,10 @@
 package com.arthurpachachura.scanit;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -99,12 +98,13 @@ public class CameraTestActivity extends AppCompatActivity implements CameraBridg
     }
 
     public void onCameraViewStopped() {
+
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
+        Mat rgba = inputFrame.rgba();
+        Mat gray = inputFrame.gray();
+        NativeApi.FrameAnalysis analysis = NativeApi.analyzeFrame(rgba, gray);
+        return rgba;
     }
-
-    public native String stringFromJNI();
-    public native String validate(long matAddrGr, long matAddrRgba);
 }
