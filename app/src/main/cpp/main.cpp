@@ -16,7 +16,7 @@ extern "C" {
     jstring
     Java_com_arthurpachachura_scanit_CameraTestActivity_validate
             (JNIEnv *env, jobject instance,
-                                                                 jlong matAddrGr, jlong matAddrRgba) {
+             jlong matAddrGr, jlong matAddrRgba) {
         cv::Rect();
         cv::Mat();
         std::string hello2 = "Hello from validate";
@@ -24,7 +24,8 @@ extern "C" {
     }
 
     jstring
-    Java_com_arthurpachachura_scanit_CameraTestActivity_stringFromJNI(JNIEnv *env, jobject instance) {
+    Java_com_arthurpachachura_scanit_CameraTestActivity_stringFromJNI
+            (JNIEnv *env, jobject instance) {
         std::string hello = "Hola from C++";
         LOGI("All good!", __LINE__);
         return env->NewStringUTF(hello.c_str());

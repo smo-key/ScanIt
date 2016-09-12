@@ -19,7 +19,7 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['F:\\Git\\ScanIt\\app\\src\\main\\jniLibs']
+            jniLibs.srcDirs = ['D:\\Git\\ScanIt\\app\\src\\main\\jniLibs']
         }
     }
     buildTypes {
