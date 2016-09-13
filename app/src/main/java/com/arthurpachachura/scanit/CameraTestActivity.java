@@ -1,9 +1,11 @@
 package com.arthurpachachura.scanit;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -47,6 +49,9 @@ public class CameraTestActivity extends AppCompatActivity implements CameraBridg
         //Keep screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        //Force landscape (for now) TODO any
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+
         //Set layout
         setContentView(R.layout.activity_cameratest);
 
@@ -54,17 +59,20 @@ public class CameraTestActivity extends AppCompatActivity implements CameraBridg
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.camera_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+    }
 
-        //Example of a call to a native method
-//        TextView tv = (TextView) findViewById(R.id.sample_text);
-//        tv.setText(stringFromJNI());
-
-//        if (!OpenCVLoader.initDebug()) {
-//            Log.e("ScanIt/OpenCVLoader", "Failed to load");
-//        } else {
-//            Log.d("ScanIt/OpenCVLoader", "Loaded successfully.");
-//            Log.d("ScanIt/OpenCVLoader", validate(0L, 0L));
-//        }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            mOpenCvCameraView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
     @Override
@@ -105,6 +113,6 @@ public class CameraTestActivity extends AppCompatActivity implements CameraBridg
         Mat rgba = inputFrame.rgba();
         Mat gray = inputFrame.gray();
         NativeApi.FrameAnalysis analysis = NativeApi.analyzeFrame(rgba, gray);
-        return rgba;
+        return gray;
     }
 }

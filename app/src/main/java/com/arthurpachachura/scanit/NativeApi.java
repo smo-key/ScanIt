@@ -10,11 +10,13 @@ import org.opencv.core.Mat;
 final class NativeApi {
 
     static FrameAnalysis analyzeFrame(Mat rgba, Mat gray) {
-        analyzeFrame(rgba.getNativeObjAddr(), gray.getNativeObjAddr());
+        analyzeFrameThreshold(rgba.getNativeObjAddr(), gray.getNativeObjAddr());
         return new FrameAnalysis(new Polygon());
     }
 
-    private native static void analyzeFrame(long matAddrRgba, long matAddrGray);
+    private native static void analyzeFrameCanny(long matAddrRgba, long matAddrGray);
+
+    private native static void analyzeFrameThreshold(long matAddrRgba, long matAddrGray);
 
     static class FrameAnalysis {
         Polygon view;
@@ -27,7 +29,4 @@ final class NativeApi {
             return view;
         }
     }
-
-    //public native String stringFromJNI();
-    //public native String validate(long matAddrGr, long matAddrRgba);
 }
